@@ -16,7 +16,7 @@
         'views/master_commission_liquidation_views.xml',
         'views/commission_menus.xml',
     ],
-    'images': ['static/description/banner.png', 'static/description/icon.png'],
+    'images': ['static/description/banner.gif', 'static/description/icon.png'],
     'price': 120.00,
     'currency': 'USD',
     'installable': True,
