@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Tree / List View -->
+    <record id="view_master_commission_record_tree" model="ir.ui.view">
+        <field name="name">master.commission.record.tree</field>
+        <field name="model">master.commission.record</field>
+        <field name="arch" type="xml">
+            <list string="Comisiones" decoration-success="state == 'paid'" decoration-muted="state == 'cancel'">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="sale_order_id"/>
+                <field name="partner_id"/>
+                <field name="user_id"/>
+                <field name="amount" sum="Total Comisiones"/>
+                <field name="sale_total_utility" sum="Utilidad Total"/>
+                <field name="state" widget="badge" decoration-success="state == 'paid'" decoration-info="state == 'draft'" decoration-danger="state == 'cancel'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_master_commission_record_form" model="ir.ui.view">
+        <field name="name">master.commission.record.form</field>
+        <field name="model">master.commission.record</field>
+        <field name="arch" type="xml">
+            <form string="Registro de Comisión">
+                <header>
+                    <button name="action_mark_paid" string="Marcar como Pagada" type="object" class="oe_highlight" invisible="state != 'draft'" groups="Master_Commision.group_commission_admin"/>
+                    <button name="action_mark_cancel" string="Cancelar" type="object" invisible="state == 'cancel'" groups="Master_Commision.group_commission_admin"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="user_id" readonly="state != 'draft'"/>
+                            <field name="sale_order_id" readonly="state != 'draft'"/>
+                            <field name="partner_id"/>
+                        </group>
+                        <group>
+                            <field name="date" readonly="state != 'draft'"/>
+                            <field name="amount" widget="monetary" readonly="state != 'draft'"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="sale_total_utility" widget="monetary" readonly="1"/>
+                        <field name="product_ids" widget="many2many_tags" readonly="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista Gráfica (Dashboard) -->
+    <record id="master_commission_record_view_graph" model="ir.ui.view">
+        <field name="name">master.commission.record.view.graph</field>
+        <field name="model">master.commission.record</field>
+        <field name="arch" type="xml">
+            <graph string="Análisis de Comisiones" type="bar" sample="1">
+                <field name="date" interval="month"/>
+                <field name="user_id"/>
+                <field name="amount" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Vista Tabla Dinámica (Pivot) -->
+    <record id="master_commission_record_view_pivot" model="ir.ui.view">
+        <field name="name">master.commission.record.view.pivot</field>
+        <field name="model">master.commission.record</field>
+        <field name="arch" type="xml">
+            <pivot string="Análisis Dinámico" sample="1">
+                <field name="date" interval="month" type="row"/>
+                <field name="user_id" type="col"/>
+                <field name="amount" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_master_commission_record_search" model="ir.ui.view">
+        <field name="name">master.commission.record.search</field>
+        <field name="model">master.commission.record</field>
+        <field name="arch" type="xml">
+            <search string="Buscar Comisiones">
+                <field name="name"/>
+                <field name="user_id"/>
+                <field name="sale_order_id"/>
+                <filter string="Pendientes" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Pagadas" name="paid" domain="[('state', '=', 'paid')]"/>
+                <group expand="0" string="Agrupar Por">
+                    <filter string="Socio" name="group_by_user" context="{'group_by': 'user_id'}"/>
+                    <filter string="Cliente" name="group_by_partner" context="{'group_by': 'partner_id'}"/>
+                    <filter string="Producto" name="group_by_product" context="{'group_by': 'product_ids'}"/>
+                    <filter string="Estado" name="group_by_state" context="{'group_by': 'state'}"/>
+                    <filter string="Mes" name="group_by_month" context="{'group_by': 'date:month'}"/>
+                    <filter string="Semana" name="group_by_week" context="{'group_by': 'date:week'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+</odoo>

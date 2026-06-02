@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Acciones -->
+    <record id="action_master_commission_record_all" model="ir.actions.act_window">
+        <field name="name">Todas las Comisiones</field>
+        <field name="res_model">master.commission.record</field>
+        <field name="view_mode">list,pivot,form</field>
+        <field name="context">{'search_default_group_by_user': 1}</field>
+    </record>
+
+    <record id="action_master_commission_record_mine" model="ir.actions.act_window">
+        <field name="name">Mis Comisiones</field>
+        <field name="res_model">master.commission.record</field>
+        <field name="view_mode">list,pivot,form</field>
+        <field name="domain">[('user_id', '=', uid)]</field>
+    </record>
+
+    <record id="action_commission_partners" model="ir.actions.act_window">
+        <field name="name">Socios Registrados</field>
+        <field name="res_model">res.users</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('is_commission_partner', '=', True)]</field>
+        <field name="context">{'default_is_commission_partner': True}</field>
+    </record>
+
+    <!-- Dashboard Action -->
+    <record id="action_master_commission_dashboard" model="ir.actions.act_window">
+        <field name="name">Dashboard de Comisiones</field>
+        <field name="res_model">master.commission.record</field>
+        <field name="view_mode">graph,pivot,list,form</field>
+        <field name="context">{'search_default_group_by_user': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                ¡Analiza tus ganancias!
+            </p>
+            <p>
+                Aquí podrás ver gráficas interactivas y tablas dinámicas con el rendimiento de las comisiones.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menús -->
+    <!-- Menú Principal (App) -->
+    <menuitem id="menu_master_commission_root" 
+              name="Master Commission" 
+              sequence="20" 
+              web_icon="Master_Commision,static/description/icon.png"/>
+
+    <!-- Menú Dashboard (Predeterminado) -->
+    <menuitem id="menu_master_commission_dashboard" 
+              name="Dashboard" 
+              parent="menu_master_commission_root" 
+              action="action_master_commission_dashboard" 
+              sequence="5"/>
+
+    <menuitem id="menu_master_commission_liquidations" name="Liquidaciones" parent="menu_master_commission_root" action="action_master_commission_liquidation" sequence="15" groups="Master_Commision.group_commission_admin"/>
+
+    <!-- Submenús para Usuarios -->
+    <menuitem id="menu_master_commission_mine" 
+              name="Mis Comisiones" 
+              parent="menu_master_commission_root" 
+              action="action_master_commission_record_mine" 
+              groups="Master_Commision.group_commission_user"
+              sequence="10"/>
+
+    <!-- Submenús para Admin -->
+    <menuitem id="menu_master_commission_admin" 
+              name="Consolidación y Pagos" 
+              parent="menu_master_commission_root" 
+              action="action_master_commission_record_all" 
+              groups="Master_Commision.group_commission_admin"
+              sequence="20"/>
+
+    <menuitem id="menu_master_commission_partners" 
+              name="Socios (Usuarios)" 
+              parent="menu_master_commission_root" 
+              action="action_commission_partners" 
+              groups="Master_Commision.group_commission_admin"
+              sequence="30"/>
+
+    <menuitem id="menu_master_commission_configuration" 
+              name="Configuración" 
+              parent="menu_master_commission_root" 
+              groups="Master_Commision.group_commission_admin"
+              sequence="100"/>
+
+    <menuitem id="menu_master_commission_settings" 
+              name="Ajustes" 
+              parent="menu_master_commission_configuration" 
+              action="action_master_commission_configuration" 
+              groups="Master_Commision.group_commission_admin"
+              sequence="10"/>
+
+</odoo>

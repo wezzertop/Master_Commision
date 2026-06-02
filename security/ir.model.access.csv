@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_master_commission_record,master.commission.record.access,model_master_commission_record,group_commission_user,1,0,0,0
+access_master_commission_record_admin,master.commission.record.admin,model_master_commission_record,group_commission_admin,1,1,1,1
+access_master_commission_liquidation,master.commission.liquidation.access,model_master_commission_liquidation,group_commission_user,1,0,0,0
+access_master_commission_liquidation_admin,master.commission.liquidation.admin,model_master_commission_liquidation,group_commission_admin,1,1,1,1

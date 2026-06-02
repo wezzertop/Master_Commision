@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_order_form_commission" model="ir.ui.view">
+        <field name="name">sale.order.form.commission</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='sale_total']" position="after">
+                <group string="Master Commission" groups="Master_Commision.group_commission_admin">
+                    <field name="utility_base_type"/>
+                    <field name="utility_percentage" widget="percentage"/>
+                    <field name="total_utility" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                </group>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Comisiones Generadas" groups="Master_Commision.group_commission_admin" invisible="not commission_record_ids">
+                    <field name="commission_record_ids">
+                        <list create="false" edit="false">
+                            <field name="user_id"/>
+                            <field name="date"/>
+                            <field name="amount" widget="monetary"/>
+                            <field name="state" widget="badge" decoration-success="state == 'paid'" decoration-info="state == 'draft'" decoration-danger="state == 'cancel'"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
