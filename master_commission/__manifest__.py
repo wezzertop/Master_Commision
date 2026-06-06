@@ -17,7 +17,7 @@
         'views/commission_menus.xml',
     ],
     'images': ['static/description/banner.gif', 'static/description/icon.png'],
-    'price': 40.00,
+    'price': 15.00,
     'currency': 'USD',
     'installable': True,
     'application': True,
